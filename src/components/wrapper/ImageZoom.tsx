@@ -17,12 +17,8 @@ const ImageZoom: React.FC<ImageZoomProps> = ({
 }) =>  {
 
     const [zoomed, setZoomed]= useState(false);
-    let overlay;
+    let overlay=document.createElement("div");
     let image:HTMLElement;
-
-    useEffect(()=>{
-        overlay= document.createElement("div");
-    },[])
 
     // overlay initialization
     function createOverlay(){
