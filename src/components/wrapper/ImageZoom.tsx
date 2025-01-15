@@ -1,5 +1,5 @@
 'use client'
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react';
 
 interface ImageZoomProps {
     children: ReactNode;
@@ -17,8 +17,12 @@ const ImageZoom: React.FC<ImageZoomProps> = ({
 }) =>  {
 
     const [zoomed, setZoomed]= useState(false);
-    let overlay=document.createElement("div");
+    let overlay:HTMLElement;
     let image:HTMLElement;
+
+    useEffect(()=>{
+        overlay=document.createElement("div");
+    },[])
 
     // overlay initialization
     function createOverlay(){
@@ -75,7 +79,6 @@ const ImageZoom: React.FC<ImageZoomProps> = ({
         image.addEventListener('transitionend', () => {
             if (!zoomed) {image.style.zIndex = ''}
         })
-        
     }
 
     // properties for zoom out
@@ -88,8 +91,10 @@ const ImageZoom: React.FC<ImageZoomProps> = ({
   
     return (
         <>
-            <div onLoad={(e)=>{zoomEnabled && handleImgLoad(e)}}>
-                <span className='target-img'>{React.cloneElement(children as React.ReactElement, { ...props })}</span>
+            <div 
+                className='target-img' 
+                onMouseOver={(e)=>{zoomEnabled && handleImgLoad(e)}}>
+                    {React.cloneElement(children as React.ReactElement, { ...props })}
             </div>
         </>
     );
